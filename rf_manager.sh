@@ -37,13 +37,17 @@ CURR_IMAGE=1
 
 # While the current image is less than or equal to 
 while [ $((CURR_IMAGE)) -le $((MAX_IMAGES)) ]; do
-    echo "am in LOOP"
     # Find the current image path
     CURR_IMAGE_PATH=$(sed -n "${CURR_IMAGE}p" $IMG_FILE)
 
     # Executing the image viewer 
     feh --scale-down "$CURR_IMAGE_PATH" &
     FEH_PID=$!
+
+    # Send fullscreen command to the feh window (Replace with your WM fullscreen command)
+    sleep 0.5
+    hyprctl dispatch focuswindow class:feh
+    hyprctl dispatch fullscreen
     sleep "${MINUTES_PER_IMAGE}s"
 
     # Killing the image viewer and updating the CURR_IMAGE
